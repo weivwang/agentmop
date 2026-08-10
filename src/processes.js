@@ -1,4 +1,5 @@
 import { execFile as execFileCallback } from 'node:child_process';
+import { realpathSync } from 'node:fs';
 import { readlink } from 'node:fs/promises';
 import { basename, isAbsolute, resolve, sep } from 'node:path';
 import { promisify } from 'node:util';
@@ -229,6 +230,16 @@ export function pathsOverlap(left, right) {
 
 function pathIdentity(inputPath) {
   const path = resolve(inputPath);
+  // Process arguments and Git output can use the long spelling of a Windows
+  // path while TEMP/HOME use an equivalent 8.3 spelling. Canonicalize only for
+  // comparison so reports still contain the path that was actually observed.
+  if (process.platform === 'win32') {
+    try {
+      return realpathSync.native(path);
+    } catch {
+      return path;
+    }
+  }
   if (process.platform !== 'darwin') return path;
   if (path === '/tmp' || path.startsWith('/tmp/')) return `/private${path}`;
   if (path === '/var' || path.startsWith('/var/')) return `/private${path}`;

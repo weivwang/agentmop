@@ -62,7 +62,8 @@ test('scanSystem reports supported agents, summary, safe caches, and protected h
   assert.equal(report.agents.find((agent) => agent.id === 'codex').installed, true);
   assert.equal(report.agents.every((agent) => Number.isFinite(agent.totalBytes)), true);
 
-  const history = report.artifacts.find((artifact) => artifact.path.endsWith('/.codex/sessions'));
+  const historyRoot = join(home, '.codex', 'sessions');
+  const history = report.artifacts.find((artifact) => artifact.path === historyRoot);
   assert.equal(history.status, 'review');
   assert.equal(history.cleanup.eligible, false);
   assert.deepEqual(history.metadata.sessionMeta, [

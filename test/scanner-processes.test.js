@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { realpathSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import test from 'node:test';
 import {
@@ -48,6 +50,12 @@ test('path reference checks work in either containment direction', () => {
   assert.equal(processReferencesPath(process, '/tmp/other'), false);
   assert.equal(pathsOverlap('/a/b', '/a/b/c'), true);
   assert.equal(pathsOverlap('/a/b', '/a/bc'), false);
+});
+
+test('Windows path reference checks recognize native and 8.3 aliases', {
+  skip: process.platform !== 'win32',
+}, () => {
+  assert.equal(pathsOverlap(tmpdir(), realpathSync.native(tmpdir())), true);
 });
 
 test('an unresolved matching cwd marks that agent process evidence incomplete', async () => {

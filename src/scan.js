@@ -1,3 +1,4 @@
+import { realpathSync } from 'node:fs';
 import { opendir, lstat } from 'node:fs/promises';
 import { homedir, hostname, tmpdir } from 'node:os';
 import { basename, join, relative, resolve, sep } from 'node:path';
@@ -535,6 +536,17 @@ function isWithin(path, parent) {
 
 function pathIdentity(inputPath) {
   const path = resolve(inputPath);
+  // Git for Windows expands 8.3 paths (for example RUNNER~1) while Node's
+  // tmpdir() can retain the short spelling. Resolve existing paths through the
+  // native filesystem only for identity/boundary comparisons; artifact paths
+  // and report.home keep their original, user-facing spelling.
+  if (process.platform === 'win32') {
+    try {
+      return realpathSync.native(path);
+    } catch {
+      return path;
+    }
+  }
   if (process.platform !== 'darwin') return path;
   if (path === '/tmp' || path.startsWith('/tmp/')) return `/private${path}`;
   if (path === '/var' || path.startsWith('/var/')) return `/private${path}`;
