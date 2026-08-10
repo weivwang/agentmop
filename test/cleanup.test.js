@@ -337,7 +337,8 @@ test('linked worktree quarantine and restore preserve ignored files until explic
   assert.equal(restored.state, 'restored');
   assert.equal(await readFile(join(linked, 'local.secret'), 'utf8'), 'must survive quarantine');
   const restoredCanonical = await realpath(linked);
-  assert.match(git(main, 'worktree', 'list', '--porcelain'), new RegExp(restoredCanonical.replaceAll('\\', '\\\\')));
+  const restoredRegistration = `worktree ${restoredCanonical.replaceAll('\\', '/')}`;
+  assert.equal(git(main, 'worktree', 'list', '--porcelain').replaceAll('\\', '/').includes(restoredRegistration), true);
 
   const secondReport = await scanSystem({ home, staleMs: 0, tmpRoots: [temp], includeSystemTmp: false, processScanner: noProcesses });
   const cleanedAgain = await executeCleanup(secondReport, {
@@ -349,7 +350,7 @@ test('linked worktree quarantine and restore preserve ignored files until explic
   const purged = await purgeBatch('worktree-purge', { home });
   assert.equal(purged.state, 'purged');
   await assert.rejects(stat(linked), { code: 'ENOENT' });
-  assert.doesNotMatch(git(main, 'worktree', 'list', '--porcelain'), new RegExp(restoredCanonical.replaceAll('\\', '\\\\')));
+  assert.equal(git(main, 'worktree', 'list', '--porcelain').replaceAll('\\', '/').includes(restoredRegistration), false);
 });
 
 test('partial purge records permanent loss and a later restore cannot claim full success', async (t) => {
