@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 168" role="img" aria-labelledby="title desc">
+  <title id="title">AgentMop</title>
+  <desc id="desc">A bright green mop sweeping agent workspace artifacts</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#121c2c"/>
+      <stop offset="1" stop-color="#080d16"/>
+    </linearGradient>
+    <linearGradient id="mop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b9ff66"/>
+      <stop offset="1" stop-color="#37e692"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect x="1" y="1" width="618" height="166" rx="30" fill="url(#bg)" stroke="#293751" stroke-width="2"/>
+  <g transform="translate(28 24)">
+    <rect width="120" height="120" rx="28" fill="#0c1421" stroke="#2b3b55"/>
+    <circle cx="60" cy="60" r="42" fill="#77f2a1" opacity=".08" filter="url(#glow)"/>
+    <path d="M79 22 55 74" fill="none" stroke="url(#mop)" stroke-width="10" stroke-linecap="round"/>
+    <path d="M35 68c9-5 20-3 27 4l13 14c3 4 2 10-3 12-18 9-38 7-53-4-5-4-4-12 2-15z" fill="url(#mop)"/>
+    <path d="m25 102-7 10m22-7-3 12m20-12 3 11m14-17 8 9" stroke="#b9ff66" stroke-width="5" stroke-linecap="round"/>
+    <path d="M88 42h16m-8-8v16" stroke="#b9ff66" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  </g>
+  <g transform="translate(174 48)">
+    <text x="0" y="45" fill="#f5f9ff" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="54" font-weight="760" letter-spacing="-2">AgentMop</text>
+    <text x="2" y="82" fill="#91a0b8" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="18">SEE THE MESS. KEEP THE WORK.</text>
+  </g>
+</svg>

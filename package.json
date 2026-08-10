@@ -1,0 +1,54 @@
+{
+  "name": "agentmop",
+  "version": "0.1.0",
+  "description": "Find the worktrees, sessions, caches, and processes AI coding agents leave behind — without deleting unfinished work.",
+  "type": "module",
+  "bin": {
+    "agentmop": "bin/agentmop.js"
+  },
+  "scripts": {
+    "check": "node --check bin/agentmop.js && node scripts/check-syntax.js",
+    "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage",
+    "demo": "node bin/agentmop.js demo",
+    "demo:html": "node bin/agentmop.js demo --html docs/index.html --no-open"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "assets",
+    "bin",
+    "src",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "docs/ARCHITECTURE.md",
+    "docs/WHY.md",
+    "LICENSE",
+    "README.md",
+    "README.zh-CN.md"
+  ],
+  "keywords": [
+    "ai-agents",
+    "codex",
+    "claude-code",
+    "opencode",
+    "cursor",
+    "disk-cleanup",
+    "git-worktree",
+    "developer-tools",
+    "local-first"
+  ],
+  "author": "weiwei Wang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weivwang/agentmop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/weivwang/agentmop/issues"
+  },
+  "homepage": "https://weivwang.github.io/agentmop/"
+}

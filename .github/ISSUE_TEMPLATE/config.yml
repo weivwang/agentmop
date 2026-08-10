@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/weivwang/agentmop/security/advisories/new
+    about: Report path traversal, unsafe cleanup, command execution, or privacy issues privately.

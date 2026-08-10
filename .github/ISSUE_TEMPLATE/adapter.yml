@@ -1,0 +1,24 @@
+name: Agent adapter request
+description: Request support for another local coding agent or a changed storage layout.
+title: "[Adapter]: "
+labels: [adapter]
+body:
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and version
+    validations:
+      required: true
+  - type: textarea
+    id: layout
+    attributes:
+      label: Public documentation or sanitized storage layout
+      description: Never paste session contents, credentials, or personal paths.
+    validations:
+      required: true
+  - type: textarea
+    id: lifecycle
+    attributes:
+      label: What can become stale, and what must always be preserved?
+    validations:
+      required: true
