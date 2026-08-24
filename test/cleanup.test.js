@@ -103,6 +103,30 @@ test('cleanup refuses stale scans', async () => {
   await assert.rejects(executeCleanup(scan, { home }), /scan is stale/i);
 });
 
+test('cleanup refuses a report from a different HOME', async (t) => {
+  const reportHome = await mkdtemp(join(tmpdir(), 'agentmop-report-home-'));
+  const requestedHome = await mkdtemp(join(tmpdir(), 'agentmop-requested-home-'));
+  t.after(async () => {
+    await rm(reportHome, { recursive: true, force: true });
+    await rm(requestedHome, { recursive: true, force: true });
+  });
+  const cache = join(reportHome, 'cache');
+  await mkdir(cache);
+  await writeFile(join(cache, 'entry.txt'), 'keep me');
+
+  await assert.rejects(
+    executeCleanup(report(reportHome, [artifact(cache)]), {
+      home: requestedHome,
+      batchId: 'home-mismatch',
+      processScanner: noProcesses,
+    }),
+    /report HOME does not match/i,
+  );
+  assert.equal(await readFile(join(cache, 'entry.txt'), 'utf8'), 'keep me');
+  await assert.rejects(stat(join(reportHome, '.agentmop')), { code: 'ENOENT' });
+  await assert.rejects(stat(join(requestedHome, '.agentmop')), { code: 'ENOENT' });
+});
+
 test('cleanup independently refuses broad and non-cleanable targets', async () => {
   const home = await mkdtemp(join(tmpdir(), 'agentmop-boundary-'));
   await assert.rejects(

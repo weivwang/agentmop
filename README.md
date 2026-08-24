@@ -157,6 +157,7 @@ Git worktrees ─────┘                    └────────�
 
 - `clean` refuses to run without `--safe` and performs its own new scan.
 - The mutation layer accepts only `SAFE` **and** cleanup-eligible artifacts from a report generated within five minutes.
+- A caller-supplied cleanup `HOME` must match the scan report's `HOME`; mismatched cleanup contexts fail before any batch or artifact is changed.
 - Exact `--id` filters fail if an id is absent, no longer safe, or not cleanup-eligible.
 - Broad roots, unsupported artifact types, changed or missing snapshots, and symbolic-link path components are independently rejected.
 - Every item gets a fresh process-reference check across all supported agents immediately before mutation; incomplete cwd evidence at this point stops cleanup. A clean linked worktree also gets a second Git status and HEAD check.
