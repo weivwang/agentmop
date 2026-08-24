@@ -21,6 +21,7 @@ Include a minimal fixture that contains no real prompts, credentials, source cod
 - Session history is classified `REVIEW`, never `SAFE`.
 - Incomplete process-cwd evidence disables `SAFE` for the affected agent.
 - Cleanup requires a fresh scan, then repeats all-agent process, snapshot, and symlink checks immediately before mutation; incomplete cwd evidence stops the operation.
+- A caller-supplied cleanup `HOME` must match the scan report's `HOME`; mismatched mutation contexts fail closed.
 - The recovery mapping is written before mutation; whole worktrees and ignored files remain quarantined until a separate, explicit purge. Purge intent is recorded per item before deletion. If recursive deletion fails after removing children, restore recovers remnants but keeps an explicit partial-integrity state and non-zero exit code.
 - HTML reports are local, self-contained, atomically written with private permissions, and may still contain sensitive paths.
 - AgentMop is a best-effort tool, not a guarantee that an artifact has no value.

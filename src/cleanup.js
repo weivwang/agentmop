@@ -96,6 +96,15 @@ function freshEnough(artifact, report, maxAgeMs = 5 * 60_000) {
   return Number.isFinite(generated) && age >= 0 && age <= maxAgeMs && artifact.status === 'safe';
 }
 
+function cleanupHome(report, options) {
+  const reportHome = report.home == null ? null : resolve(report.home);
+  const requestedHome = options.home == null ? null : resolve(options.home);
+  if (reportHome && requestedHome && reportHome !== requestedHome) {
+    throw new Error(`Cleanup report HOME does not match the requested HOME.`);
+  }
+  return requestedHome ?? reportHome ?? resolve(homedir());
+}
+
 function trustedScanRoot(artifact) {
   const root = artifact.metadata?.scanRoot;
   if (!root) throw new Error(`Missing trusted scan root for ${artifact.displayPath ?? artifact.path}`);
@@ -259,7 +268,7 @@ export async function executeCleanup(report, options = {}) {
   }
   if (options.dryRun || plan.items.length === 0) return { ...plan, dryRun: true, batch: null };
 
-  const home = resolve(report.home ?? options.home ?? homedir());
+  const home = cleanupHome(report, options);
   for (const { artifact } of plan.items) {
     assertNarrowTarget(artifact, home);
     const scanRoot = trustedScanRoot(artifact);
